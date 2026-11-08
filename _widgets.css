@@ -1,0 +1,1640 @@
+/* ============================================================
+   SHARED INVITATION WIDGETS Ã¢â‚¬â€ used by all templates
+   Theme via CSS variables on :root in each template:
+     --w-accent       primary accent color (buttons, headings)
+     --w-accent-text  text on top of --w-accent
+     --w-bg           page background
+     --w-text         primary text color
+     --w-card-bg      card / surface background
+     --w-border       borders
+     --w-shadow       shadow color (rgba)
+     --w-font-display Cinzel-style display font
+     --w-font-script  Italianno-style script font
+   Fallbacks are provided so widgets always render legibly.
+   ============================================================ */
+
+:root {
+  --w-accent: var(--w-accent, #8b7028);
+  --w-accent-text: var(--w-accent-text, #ffffff);
+  --w-bg: var(--w-bg, #ffffff);
+  --w-text: var(--w-text, #1a1410);
+  --w-card-bg: var(--w-card-bg, rgba(255, 255, 255, 0.7));
+  --w-border: var(--w-border, rgba(0, 0, 0, 0.1));
+  --w-shadow: var(--w-shadow, rgba(0, 0, 0, 0.15));
+  --w-font-display: var(--w-font-display, 'Cinzel', serif);
+  --w-font-script: var(--w-font-script, 'Italianno', cursive);
+}
+
+#invite-widgets {
+  margin: 60px auto 40px;
+  max-width: 720px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 3;
+  font-family: inherit;
+  color: var(--w-text);
+}
+
+/* === SCRATCH-TO-REVEAL CARD === */
+.w-scratch-section {
+  margin: 36px auto 28px;
+  text-align: center;
+}
+.w-scratch-wrap {
+  position: relative;
+  width: min(360px, 86%);
+  height: 178px;
+  margin: 22px auto 8px;
+  border: 1px solid var(--w-accent);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 0 26px var(--w-shadow);
+}
+.w-scratch-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at center, rgba(255, 236, 188, 0.20), transparent 72%),
+    var(--w-accent);
+  color: var(--w-accent-text);
+  padding: 0 14px;
+}
+.w-scratch-date {
+  font-family: var(--w-font-script);
+  font-size: clamp(20px, 4.4vw, 28px);
+  color: var(--w-accent-text);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  max-width: 92%;
+  text-align: center;
+}
+.w-scratch-time {
+  font-family: var(--w-font-script);
+  font-style: italic;
+  font-size: clamp(24px, 5vw, 34px);
+  color: var(--w-accent-text);
+  line-height: 1;
+}
+.w-scratch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  transition: opacity 0.9s ease;
+}
+.w-scratch-canvas:active { cursor: grabbing; }
+.w-scratch-canvas.revealed { opacity: 0; pointer-events: none; }
+.w-scratch-wrap.revealed .w-scratch-date,
+.w-scratch-wrap.revealed .w-scratch-time {
+  animation: w-time-reveal 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.w-scratch-wrap.revealed .w-scratch-content {
+  animation: w-content-flash 1.1s ease both;
+}
+@keyframes w-time-reveal {
+  0%   { transform: scale(0.7); opacity: 0.25; filter: blur(3px); letter-spacing: 0.18em; }
+  60%  { transform: scale(1.12); opacity: 1; filter: blur(0); }
+  100% { transform: scale(1); }
+}
+@keyframes w-content-flash {
+  0%   { box-shadow: inset 0 0 0 rgba(230, 200, 120, 0); }
+  40%  { box-shadow: inset 0 0 60px rgba(230, 200, 120, 0.5); }
+  100% { box-shadow: inset 0 0 0 rgba(230, 200, 120, 0); }
+}
+
+/* ============================================================
+   PER-THEME COUNTDOWN CARDS
+   Each of the 6 "other" themes gets its own per-cell card design with a
+   bordered look and a unique glow/animation. Muslim Elegance and Royal Walima
+   are deliberately untouched Ã¢â‚¬â€ they have their own clock-frame designs.
+   Scoped via body:has() so the rules only apply on their specific template.
+   ============================================================ */
+
+/* === BLUE & GOLD FLORAL Ã¢â‚¬â€ flip cards in navy + gold === */
+body:has(#invite-widgets[data-template-slug="blue-gold-floral"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+  padding: 0 12px;
+  perspective: 600px;
+}
+body:has(#invite-widgets[data-template-slug="blue-gold-floral"]) .countdown .ct {
+  position: relative;
+  width: 70px;
+  padding: 14px 4px 12px;
+  background: linear-gradient(180deg, #142d56 0%, #0a1d3b 100%);
+  border: 1px solid #c9a961;
+  border-radius: 10px;
+  box-shadow:
+    0 0 18px rgba(201, 169, 97, 0.35),
+    inset 0 1px 0 rgba(230, 200, 120, 0.18);
+  text-align: center;
+  transform-style: preserve-3d;
+  animation: bg-cd-flip 5s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="blue-gold-floral"]) .countdown .ct::after {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,97,0.45), transparent);
+}
+body:has(#invite-widgets[data-template-slug="blue-gold-floral"]) .countdown .n {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #e6c878;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(230, 200, 120, 0.55);
+}
+body:has(#invite-widgets[data-template-slug="blue-gold-floral"]) .countdown .l {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  text-transform: uppercase;
+  color: #c9a961;
+  margin-top: 8px;
+}
+@keyframes bg-cd-flip {
+  0%, 88%, 100% { transform: rotateX(0); }
+  92%           { transform: rotateX(-30deg); }
+  96%           { transform: rotateX(8deg); }
+}
+
+/* === WATERCOLOR PURPLE/GREEN Ã¢â‚¬â€ round halo bubbles with purple glow === */
+body:has(#invite-widgets[data-template-slug="watercolor-purple-green"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 28px auto;
+}
+body:has(#invite-widgets[data-template-slug="watercolor-purple-green"]) .countdown .ct {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #fffaf3 0%, #f3e8e0 75%);
+  border: 1.5px solid #7a5c92;
+  text-align: center;
+  box-shadow:
+    0 0 0 4px rgba(122, 92, 146, 0.10),
+    0 0 22px rgba(122, 92, 146, 0.45);
+  animation: wc-cd-halo 2.4s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="watercolor-purple-green"]) .countdown .n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #4e3866;
+  line-height: 1;
+}
+body:has(#invite-widgets[data-template-slug="watercolor-purple-green"]) .countdown .l {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6f8e62;
+  margin-top: 3px;
+}
+@keyframes wc-cd-halo {
+  0%, 100% {
+    box-shadow:
+      0 0 0 4px rgba(122, 92, 146, 0.10),
+      0 0 22px rgba(122, 92, 146, 0.45);
+  }
+  50% {
+    box-shadow:
+      0 0 0 8px rgba(122, 92, 146, 0.14),
+      0 0 38px rgba(150, 200, 120, 0.55);
+  }
+}
+
+/* === RED & CREAM INDIAN Ã¢â‚¬â€ ornate marigold-glow cards === */
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+}
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .ct {
+  position: relative;
+  width: 72px;
+  padding: 14px 4px;
+  background: #fdf5e7;
+  border: 2px solid #b03030;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 22px rgba(255, 152, 56, 0.55);
+  animation: rc-cd-marigold 2.6s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .ct::before,
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .ct::after {
+  content: 'Ã¢Å“Â¦';
+  position: absolute;
+  font-size: 9px;
+  color: #b03030;
+  opacity: 0.85;
+}
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .ct::before { top: 2px; left: 4px; }
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .ct::after  { bottom: 2px; right: 4px; }
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #8a1f1f;
+  line-height: 1;
+}
+body:has(#invite-widgets[data-template-slug="red-cream-indian"]) .countdown .l {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b03030;
+  margin-top: 5px;
+}
+@keyframes rc-cd-marigold {
+  0%, 100% { box-shadow: 0 0 18px rgba(255, 152, 56, 0.50); transform: translateY(0); }
+  50%      { box-shadow: 0 0 32px rgba(255, 152, 56, 0.85); transform: translateY(-2px); }
+}
+
+/* === RED & PINK TRADITIONAL Ã¢â‚¬â€ maroon cards, coral glow === */
+body:has(#invite-widgets[data-template-slug="red-pink-traditional"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+}
+body:has(#invite-widgets[data-template-slug="red-pink-traditional"]) .countdown .ct {
+  width: 72px;
+  padding: 14px 4px;
+  background: linear-gradient(180deg, #6d1e2a 0%, #4f1320 100%);
+  border: 1px solid #f0c98d;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 22px rgba(245, 122, 132, 0.55);
+  animation: rp-cd-pulse 2.4s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="red-pink-traditional"]) .countdown .n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffe8c4;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(245, 122, 132, 0.5);
+}
+body:has(#invite-widgets[data-template-slug="red-pink-traditional"]) .countdown .l {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f0c98d;
+  margin-top: 5px;
+}
+@keyframes rp-cd-pulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(245, 122, 132, 0.45); }
+  50%      { box-shadow: 0 0 36px rgba(245, 122, 132, 0.85), 0 0 60px rgba(240, 201, 141, 0.45); }
+}
+
+/* === ROYAL MAROON SCROLL Ã¢â‚¬â€ maroon cards in a gold frame, 3D flip === */
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+  perspective: 600px;
+}
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .ct {
+  position: relative;
+  width: 72px;
+  padding: 14px 4px 12px;
+  background: linear-gradient(180deg, #6a141b 0%, #3a0a0d 100%);
+  border: 1px solid #e6c47e;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow:
+    0 0 0 3px rgba(58, 10, 13, 0.9),
+    0 0 0 4px rgba(230, 196, 126, 0.55),
+    0 14px 24px -8px rgba(0, 0, 0, 0.7),
+    0 0 22px rgba(230, 196, 126, 0.3);
+  transform-style: preserve-3d;
+  animation: rs-cd-flip 5s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .ct:nth-child(2) { animation-delay: 0.15s; }
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .ct:nth-child(3) { animation-delay: 0.3s; }
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .ct:nth-child(4) { animation-delay: 0.45s; }
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .ct::after {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(230, 196, 126, 0.5), transparent);
+}
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .n {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #f3d998;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(243, 217, 152, 0.5);
+}
+body:has(#invite-widgets[data-template-slug="royal-scroll"]) .countdown .l {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  text-transform: uppercase;
+  color: #e6c47e;
+  margin-top: 8px;
+}
+@keyframes rs-cd-flip {
+  0%, 86%, 100% { transform: rotateX(0); }
+  90%           { transform: rotateX(-34deg); }
+  95%           { transform: rotateX(10deg); }
+}
+
+/* === RGB BIRTHDAY Ã¢â‚¬â€ neon rainbow cards === */
+body:has(#invite-widgets[data-template-slug="rgb-birthday"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+}
+body:has(#invite-widgets[data-template-slug="rgb-birthday"]) .countdown .ct {
+  position: relative;
+  width: 72px;
+  padding: 14px 4px;
+  background: linear-gradient(180deg, #0f0f2a 0%, #1a0f3a 100%);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background-image:
+    linear-gradient(180deg, #0f0f2a, #1a0f3a),
+    linear-gradient(135deg, #ff5e9c, #ffd76b, #6bf0a0, #6bb8ff, #c78bff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  text-align: center;
+  animation: rgb-cd-bounce 1.4s ease-in-out infinite alternate;
+}
+body:has(#invite-widgets[data-template-slug="rgb-birthday"]) .countdown .n {
+  font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffd76b;
+  line-height: 1;
+  text-shadow:
+    0 0 10px #ff5e9c,
+    0 0 22px #6bb8ff;
+}
+body:has(#invite-widgets[data-template-slug="rgb-birthday"]) .countdown .l {
+  font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.85;
+  margin-top: 5px;
+}
+@keyframes rgb-cd-bounce {
+  0%   { transform: translateY(0);    box-shadow: 0 0 18px rgba(255, 94, 156, 0.55); }
+  100% { transform: translateY(-4px); box-shadow: 0 0 32px rgba(107, 184, 255, 0.75); }
+}
+
+/* === PINK & ORANGE BIRTHDAY Ã¢â‚¬â€ playful peach pop === */
+body:has(#invite-widgets[data-template-slug="pink-orange-birthday"]) .countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto;
+}
+body:has(#invite-widgets[data-template-slug="pink-orange-birthday"]) .countdown .ct {
+  width: 72px;
+  padding: 14px 4px;
+  background: linear-gradient(180deg, #fff7ee 0%, #ffe4d4 100%);
+  border: 2px solid #ff8c66;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow:
+    0 6px 0 #ffb89a,
+    0 0 22px rgba(255, 140, 102, 0.55);
+  animation: po-cd-pop 1.6s ease-in-out infinite;
+}
+body:has(#invite-widgets[data-template-slug="pink-orange-birthday"]) .countdown .n {
+  font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #d75a2f;
+  line-height: 1;
+}
+body:has(#invite-widgets[data-template-slug="pink-orange-birthday"]) .countdown .l {
+  font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ee8eb4;
+  margin-top: 5px;
+}
+@keyframes po-cd-pop {
+  0%, 100% { transform: scale(1);    box-shadow: 0 6px 0 #ffb89a, 0 0 18px rgba(255, 140, 102, 0.45); }
+  50%      { transform: scale(1.04); box-shadow: 0 8px 0 #ffb89a, 0 0 32px rgba(255, 140, 102, 0.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .countdown .ct { animation: none !important; }
+}
+
+/* === PERSONAL MESSAGE Ã¢â‚¬â€ the host's note to their guests (optional) === */
+/* The RSVP below carries no top margin of its own Ã¢â‚¬â€ it used to follow the
+   action bar directly Ã¢â‚¬â€ so this section supplies both sides of its gap. */
+.w-message { margin: 46px 0; }
+.w-message-card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px 26px 28px;
+  text-align: center;
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  border-radius: 4px;
+}
+/* A 60px glyph on a 24px line box: it hangs above its own line, which is what
+   drops it neatly into the card's top padding instead of pushing the text down. */
+.w-message-quote {
+  font-family: var(--w-font-script);
+  font-size: 60px;
+  line-height: 0.4;
+  margin-bottom: 16px;
+  color: var(--w-accent);
+  opacity: 0.5;
+}
+/* The host's note is the one block of real prose a guest has to READ, so it
+   takes the theme's body face (inherited) rather than its calligraphic script
+   Ã¢â‚¬â€ Pinyon Script and Allura are lovely for two names and punishing for four
+   lines. The decorative quote mark above keeps the flourish. */
+.w-message-text {
+  font-size: clamp(17px, 3vw, 21px);
+  line-height: 1.75;
+  color: var(--w-text);
+  /* Render the host's message exactly as typed Ã¢â‚¬â€ keep their line breaks and
+     blank lines between paragraphs instead of collapsing it into one block. */
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* === SECTION HEADING === */
+.w-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.w-heading-script {
+  font-family: var(--w-font-script);
+  font-size: clamp(38px, 6vw, 52px);
+  color: var(--w-accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.w-heading-sub {
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--w-accent);
+  opacity: 0.75;
+}
+
+/* === VENUE DETAILS IN THE JOIN US SECTION === */
+.w-venue {
+  max-width: 580px;
+  margin: -8px auto 22px;
+  padding: 0 18px;
+  text-align: center;
+}
+.w-venue-name {
+  font-family: var(--w-font-display);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  line-height: 1.55;
+  color: var(--w-accent);
+  text-transform: uppercase;
+}
+.w-venue-address {
+  margin-top: 7px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--w-text);
+  opacity: 0.76;
+  overflow-wrap: anywhere;
+}
+
+/* === ACTION BAR (single Google Maps link) === */
+.w-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 220px);
+  justify-content: center;
+  gap: 12px;
+  max-width: 240px;
+  margin: 0 auto 50px;
+}
+
+/* === INLINE RSVP === */
+.w-rsvp {
+  margin-bottom: 50px;
+}
+.w-rsvp-card {
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  padding: 24px;
+  border-radius: 4px;
+}
+
+/* === CONTACTS Ã¢â‚¬â€ whom a guest can call on the day (optional) === */
+.w-contact { margin-top: 46px; }
+.w-contact-card {
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  border-radius: 4px;
+  padding: 6px 18px;
+}
+.w-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--w-border);
+}
+.w-contact-row:last-child { border-bottom: 0; }
+.w-contact-who { min-width: 0; }
+.w-contact-name {
+  font-family: var(--w-font-display);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--w-text);
+  line-height: 1.35;
+}
+.w-contact-role {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--w-text);
+  opacity: 0.66;
+  margin-top: 1px;
+}
+.w-contact-num {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--w-accent);
+  text-decoration: none;
+  direction: ltr;
+}
+a.w-contact-num:hover { text-decoration: underline; }
+/* a masked stand-in number: shown, but it goes nowhere */
+.w-contact-num.is-off { opacity: 0.7; }
+.w-contact-acts {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.w-contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--w-border);
+  border-radius: 50%;
+  color: var(--w-accent);
+  background: transparent;
+  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+a.w-contact-btn:hover {
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+  border-color: var(--w-accent);
+  transform: translateY(-2px);
+}
+.w-contact-btn.is-off {
+  opacity: 0.5;
+  cursor: default;
+}
+.w-contact-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* the WhatsApp mark is a solid glyph, not a stroked one */
+.w-contact-btn svg[viewBox="0 0 24 24"] path[d^="M17.5"],
+.w-contact-btn svg path[d^="M12 2C6.5"] { fill: currentColor; stroke: none; }
+
+.w-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* Force every action button to the same intrinsic size Ã¢â‚¬â€ without these,
+     buttons inside .w-dropdown wrappers shrink to content width and end up
+     narrower than the bare RSVP/Map buttons. */
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  padding: 18px 12px;
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  color: var(--w-text);
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+.w-btn:hover, .w-btn:focus-visible {
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+  border-color: var(--w-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--w-shadow);
+  outline: none;
+}
+.w-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+}
+.w-btn .w-btn-label {
+  line-height: 1.2;
+}
+
+/* === DROPDOWN (Calendar / Share) === */
+.w-dropdown {
+  position: relative;
+  display: flex;
+  /* Stretch the wrapper so the .w-btn inside fills the grid cell evenly */
+  width: 100%;
+  height: 100%;
+}
+.w-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 200px;
+  background: var(--w-bg);
+  border: 1px solid var(--w-border);
+  box-shadow: 0 14px 36px var(--w-shadow);
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+  z-index: 20;
+  overflow: hidden;
+}
+.w-dropdown.open .w-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.w-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--w-text);
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+.w-dropdown-item:not(:last-child) {
+  border-bottom: 1px solid var(--w-border);
+}
+.w-dropdown-item:hover {
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+}
+.w-dropdown-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* === MODAL (RSVP) === */
+.w-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.w-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+.w-modal-card {
+  background: var(--w-bg);
+  border: 1px solid var(--w-border);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  padding: 36px 32px;
+  position: relative;
+  transform: translateY(40px) scale(0.96);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.w-modal.open .w-modal-card { transform: translateY(0) scale(1); }
+
+.w-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--w-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--w-text);
+  transition: background 0.2s, color 0.2s;
+}
+.w-modal-close:hover { background: var(--w-accent); color: var(--w-accent-text); border-color: var(--w-accent); }
+.w-modal-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+.w-modal-title {
+  font-family: var(--w-font-script);
+  font-size: 44px;
+  color: var(--w-accent);
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.w-modal-sub {
+  text-align: center;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--w-text);
+  opacity: 0.75;
+  margin-bottom: 28px;
+}
+
+/* === FORM FIELDS === */
+.w-field {
+  margin-bottom: 18px;
+}
+.w-field label {
+  display: block;
+  font-family: var(--w-font-display);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--w-accent);
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+.w-field input[type="text"],
+.w-field input[type="number"],
+.w-field input[type="email"],
+.w-field textarea {
+  width: 100%;
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--w-text);
+  outline: none;
+  border-radius: 4px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.w-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.w-field input:focus,
+.w-field textarea:focus {
+  border-color: var(--w-accent);
+  background: var(--w-bg);
+}
+
+.w-radio-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.w-radio {
+  position: relative;
+}
+.w-radio input { position: absolute; opacity: 0; pointer-events: none; }
+.w-radio span {
+  display: block;
+  text-align: center;
+  padding: 12px 8px;
+  border: 1px solid var(--w-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--w-font-display);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  background: var(--w-card-bg);
+  color: var(--w-text);
+}
+.w-radio input:checked + span {
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+  border-color: var(--w-accent);
+}
+
+.w-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+  border: none;
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+.w-submit:hover {
+  letter-spacing: 0.4em;
+  filter: brightness(1.1);
+}
+
+/* === SUCCESS STATE === */
+.w-success {
+  text-align: center;
+  padding: 30px 0;
+  display: none;
+}
+.w-success.show { display: block; animation: w-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes w-pop {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.w-success-circle {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--w-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--w-accent-text);
+  position: relative;
+}
+.w-success-circle svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: w-check 0.5s ease 0.2s forwards;
+}
+@keyframes w-check { to { stroke-dashoffset: 0; } }
+.w-success-title {
+  font-family: var(--w-font-script);
+  font-size: 36px;
+  color: var(--w-accent);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.w-success-msg {
+  font-style: italic;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* === WISHES WALL === */
+.w-wishes {
+  margin-top: 50px;
+}
+
+.w-wish-form {
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  padding: 24px;
+  border-radius: 4px;
+  margin-bottom: 28px;
+}
+.w-wish-form-title {
+  font-family: var(--w-font-script);
+  font-size: 28px;
+  color: var(--w-accent);
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.w-wish-form-sub {
+  text-align: center;
+  font-style: italic;
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 18px;
+}
+
+.w-photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px dashed var(--w-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--w-accent);
+  background: transparent;
+  transition: border-color 0.2s, background 0.2s;
+}
+.w-photo-upload:hover {
+  border-color: var(--w-accent);
+  background: var(--w-card-bg);
+}
+.w-photo-upload svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.w-photo-upload input { display: none; }
+
+.w-photo-preview {
+  margin-top: 12px;
+  position: relative;
+  display: none;
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 200px;
+}
+.w-photo-preview.show { display: block; animation: w-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.w-photo-preview img { display: block; width: 100%; height: auto; }
+.w-photo-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.w-wishes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.w-wish-empty {
+  text-align: center;
+  font-style: italic;
+  opacity: 0.6;
+  padding: 30px 20px;
+  font-size: 14px;
+}
+.w-wish-item {
+  background: var(--w-card-bg);
+  border: 1px solid var(--w-border);
+  border-radius: 4px;
+  padding: 18px;
+  position: relative;
+  animation: w-slide-in 0.5s ease-out;
+}
+@keyframes w-slide-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.w-wish-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.w-wish-name {
+  font-family: var(--w-font-script);
+  font-size: 24px;
+  color: var(--w-accent);
+  line-height: 1;
+}
+.w-wish-time {
+  font-family: var(--w-font-display);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+.w-wish-message {
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--w-text);
+}
+.w-wish-photo {
+  margin-top: 12px;
+  border-radius: 4px;
+  overflow: hidden;
+  max-width: 280px;
+}
+.w-wish-photo img { display: block; width: 100%; height: auto; }
+
+/* === BACKGROUND MUSIC BUTTON === */
+.w-music-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 220;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--w-card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--w-accent);
+  color: var(--w-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+.w-music-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px var(--w-shadow);
+}
+.w-music-btn.on {
+  background: var(--w-accent);
+  color: var(--w-accent-text);
+}
+.w-music-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+.w-music-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Pulse ring that shows when music is OFF Ã¢â‚¬â€ gentle hint */
+.w-music-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--w-accent);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: w-music-pulse 2.6s ease-out infinite;
+}
+.w-music-btn.on .w-music-pulse {
+  display: none;
+}
+@keyframes w-music-pulse {
+  0%   { transform: scale(1);   opacity: 0.45; }
+  70%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* === CURTAIN REVEAL =====================================================
+   Velvet-style two-panel curtain covers the whole page on first load.
+   Click the centered button (or the page) to slide the panels apart.
+   Theme-aware via --w-accent / --w-accent-text. Activated by adding
+   data-curtain="true" to #invite-widgets in the template HTML. */
+
+.w-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: stretch;
+  pointer-events: auto;
+}
+.w-curtain.opening { pointer-events: none; }
+.w-curtain.closed  { display: none; }
+
+.w-curtain-half {
+  flex: 1;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, var(--w-accent), color-mix(in srgb, var(--w-accent) 65%, black));
+  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+}
+/* Velvet vertical pleats Ã¢â‚¬â€ alternating dark/light stripes */
+.w-curtain-half::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    rgba(0, 0, 0, 0.08) 6px,
+    transparent 12px,
+    rgba(255, 255, 255, 0.05) 18px,
+    transparent 24px
+  );
+  pointer-events: none;
+}
+/* Soft inner edge highlight where the two halves meet */
+.w-curtain-half.left::after,
+.w-curtain-half.right::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40px;
+  pointer-events: none;
+}
+.w-curtain-half.left::after  { right: 0; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.5)); }
+.w-curtain-half.right::after { left: 0;  background: linear-gradient(-90deg, transparent, rgba(0, 0, 0, 0.5)); }
+
+.w-curtain.opening .w-curtain-half.left  { transform: translateX(-101%); }
+.w-curtain.opening .w-curtain-half.right { transform: translateX(101%); }
+
+/* Center prompt + button overlay (separate so we can fade it independently) */
+.w-curtain-center {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  pointer-events: none;
+  text-align: center;
+  padding: 30px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.w-curtain.opening + .w-curtain-center {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.w-curtain-eyebrow {
+  font-family: var(--w-font-display);
+  font-size: 12px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--w-accent-text);
+  opacity: 0.85;
+}
+.w-curtain-prompt {
+  font-family: var(--w-font-script);
+  font-size: clamp(48px, 9vw, 88px);
+  color: var(--w-accent-text);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  line-height: 1;
+  animation: w-curtain-prompt-pulse 2.6s ease-in-out infinite;
+}
+@keyframes w-curtain-prompt-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+.w-curtain-event {
+  font-family: var(--w-font-display);
+  font-size: clamp(12px, 1.8vw, 15px);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--w-accent-text);
+  opacity: 0.9;
+  margin-top: 12px;
+}
+
+.w-curtain-btn {
+  pointer-events: auto;
+  padding: 14px 36px;
+  background: var(--w-accent-text);
+  color: var(--w-accent);
+  border: 1px solid var(--w-accent-text);
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.w-curtain-btn:hover {
+  transform: translateY(-2px);
+  letter-spacing: 0.45em;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Decorative tassel hanging from top center */
+.w-curtain-tassel {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10001;
+  width: 4px;
+  height: 80px;
+  background: linear-gradient(180deg, var(--w-accent-text), transparent);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.w-curtain-tassel::after {
+  content: '';
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  width: 16px;
+  height: 22px;
+  background: var(--w-accent-text);
+  border-radius: 50% 50% 30% 30%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.w-curtain.opening ~ .w-curtain-tassel { opacity: 0; }
+
+/* === COPIED TOAST === */
+.w-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--w-text);
+  color: var(--w-bg);
+  padding: 12px 22px;
+  border-radius: 4px;
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 250;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.w-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* === COUNTDOWN SECTION HEADING (above the .countdown cells) === */
+.w-cd-heading {
+  text-align: center;
+  margin: 44px auto 14px;
+  max-width: 600px;
+  padding: 0 16px;
+}
+.w-cd-eyebrow {
+  font-family: var(--w-font-display);
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--w-accent);
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+.w-cd-title {
+  font-family: var(--w-font-script);
+  font-size: clamp(28px, 5vw, 44px);
+  color: var(--w-accent);
+  line-height: 1.15;
+}
+.w-cd-days-text {
+  font-family: var(--w-font-display);
+  font-weight: 600;
+  font-size: clamp(38px, 7vw, 56px);
+  letter-spacing: 0.05em;
+  display: inline-block;
+  vertical-align: -0.18em;
+  margin-right: 6px;
+  color: var(--w-accent);
+  /* Fixed-width digits so the number doesn't nudge the line as it counts. */
+  font-variant-numeric: tabular-nums;
+}
+.w-cd-days-label {
+  font-family: var(--w-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.45em;
+  vertical-align: 0.25em;
+  margin-right: 6px;
+  opacity: 0.85;
+}
+.w-cd-tail {
+  /* Always on its own line under "<N> days". Keeping the tail inline let it
+     jump to a second line the moment the real day count replaced "Ã¢â‚¬â€", which
+     grew the heading and shoved the page down mid-scroll (the glitch). A fixed
+     two-line layout ("<N> days" / "until your dream <event>") never shifts. */
+  display: block;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* === COUNTDOWN FLIP ANIMATION ===
+   Runs whenever a number changes (applied via JS MutationObserver). Pairs with
+   each theme's own cell animation (pulse/halo/bounce/etc.) above. */
+.countdown .n,
+.countdown .count-num {
+  display: inline-block;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+.w-cd-flip {
+  animation: w-cd-flip-anim 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+@keyframes w-cd-flip-anim {
+  0%   { transform: rotateX(0deg);  filter: brightness(1); }
+  50%  { transform: rotateX(90deg); filter: brightness(1.35); opacity: 0.45; }
+  100% { transform: rotateX(0deg);  filter: brightness(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .w-cd-flip { animation: none; }
+}
+
+/* ============================================================
+   PHOTO SLIDESHOW Ã¢â‚¬â€ sits under the couple's names, mounted by
+   _widgets.js into #w-slideshow-mount. Lives outside
+   #invite-widgets, so it carries its own width and centering.
+   ============================================================ */
+/* Several themes centre their sections with flex/grid, which would shrink an
+   empty mount to fit-content Ã¢â‚¬â€ keep it full width so .w-ss can centre itself. */
+#w-slideshow-mount {
+  width: 100%;
+  align-self: stretch;
+  justify-self: stretch;
+}
+
+.w-ss {
+  max-width: 560px;
+  margin: 40px auto 50px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: var(--w-text);
+}
+/* Own entrance reveal Ã¢â‚¬â€ see renderSlideshow(). The hidden start state is only
+   added by JS (.w-ss-anim) once an observer exists to take it away again. */
+.w-ss-anim {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.w-ss-anim.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.w-ss .w-heading {
+  margin-bottom: 18px;
+}
+
+/* The stage spans the full column and clips, so the cards either side of the
+   front one run off the edges instead of widening the invitation. */
+.w-ss-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* Room above and below for the front card's shadow */
+  padding: 16px 0 46px;
+  overflow: hidden;
+  outline: none;
+  /* Let vertical scrolling through the deck stay with the page */
+  touch-action: pan-y;
+}
+
+.w-ss-deck {
+  position: relative;
+  width: min(300px, 64%);
+  aspect-ratio: 3 / 4;
+  perspective: 900px;
+}
+
+.w-ss-slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  border: 1px solid var(--w-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--w-card-bg);
+  /* Waiting its turn: parked behind the front card */
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.85s ease,
+    filter 0.85s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+.w-ss-slide.is-active {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 18px 44px var(--w-shadow);
+  z-index: 3;
+  pointer-events: auto;
+}
+/* The one before and the one after, pushed back and dimmed */
+.w-ss-slide.is-prev,
+.w-ss-slide.is-next {
+  opacity: 0.45;
+  filter: blur(1.5px) saturate(0.7);
+  box-shadow: 0 10px 26px var(--w-shadow);
+  z-index: 2;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.w-ss-slide.is-prev { transform: translateX(-54%) scale(0.82) rotateY(16deg); }
+.w-ss-slide.is-next { transform: translateX(54%) scale(0.82) rotateY(-16deg); }
+
+/* Thin inner ring, so the photo reads as framed rather than pasted on */
+.w-ss-slide::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--w-accent);
+  border-radius: 3px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 2;
+}
+.w-ss-stage:focus-visible .w-ss-slide.is-active {
+  box-shadow: 0 18px 44px var(--w-shadow), 0 0 0 2px var(--w-accent);
+}
+
+.w-ss-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  transform: scale(1.02);
+}
+/* Slow Ken Burns drift on whichever photo is in front */
+.w-ss-slide.is-active img {
+  animation: wSsKenBurns 7s ease-out forwards;
+}
+@keyframes wSsKenBurns {
+  from { transform: scale(1.02); }
+  to   { transform: scale(1.1); }
+}
+.w-ss-static .w-ss-slide img,
+.w-ss-static .w-ss-slide.is-active img {
+  animation: none;
+  transform: none;
+}
+
+.w-ss-nav {
+  position: absolute;
+  /* Matches the stage padding, so the arrows centre on the cards */
+  top: 16px;
+  bottom: 46px;
+  margin: auto 0;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--w-border);
+  border-radius: 50%;
+  background: var(--w-card-bg);
+  backdrop-filter: blur(4px);
+  color: var(--w-accent);
+  cursor: pointer;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.w-ss-stage:hover .w-ss-nav,
+.w-ss-stage:focus-within .w-ss-nav {
+  opacity: 1;
+}
+.w-ss-nav:hover {
+  transform: scale(1.08);
+}
+.w-ss-nav.prev { left: 4px; }
+.w-ss-nav.next { right: 4px; }
+.w-ss-nav svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Touch devices have no hover to reveal the arrows, so keep them visible */
+@media (hover: none) {
+  .w-ss-nav { opacity: 0.92; }
+}
+
+/* Sits in the deck, so it rides the front card rather than the stage edge */
+.w-ss-count {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 5;
+  padding: 4px 10px;
+  border-radius: 999px;
+  /* Neutral chip Ã¢â‚¬â€ legible over any photo in any theme */
+  background: rgba(0, 0, 0, 0.42);
+  color: #fff;
+  font-family: var(--w-font-display);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.w-ss-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 12px;
+}
+.w-ss-dot {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.w-ss-dot::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--w-accent);
+  border-radius: 50%;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.w-ss-dot.is-active::after {
+  background: var(--w-accent);
+  transform: scale(1.45);
+}
+
+/* One photo: no deck to page through, so the controls go away */
+.w-ss-solo .w-ss-nav,
+.w-ss-solo .w-ss-dots,
+.w-ss-solo .w-ss-count {
+  display: none;
+}
+.w-ss-solo .w-ss-deck {
+  width: min(340px, 84%);
+}
+
+@media (max-width: 520px) {
+  .w-ss { margin: 30px auto 40px; }
+  .w-ss-deck { width: min(240px, 66%); }
+  .w-ss-solo .w-ss-deck { width: min(280px, 86%); }
+}
+

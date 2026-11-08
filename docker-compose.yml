@@ -1,0 +1,9 @@
+services:
+  wedding-site:
+    image: nginx:alpine
+    container_name: wedding-invitation-site
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
